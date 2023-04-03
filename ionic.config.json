@@ -1,0 +1,7 @@
+{
+  "name": "Svgs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
