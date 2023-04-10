@@ -9,6 +9,8 @@ import {SafePipe} from "../../pipes/safe.pipe";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {ColorsService} from "../../api/colors.service";
 import {ColorDto} from "../../api/dto/color.dto";
+import { jsPDF } from 'jspdf';
+import 'svg2pdf.js'
 
 @Component({
   selector: 'app-edit-image',
@@ -63,7 +65,6 @@ export class EditImagePage implements OnInit, AfterViewInit {
     const svgDocument = self.svgObject?.nativeElement.getSVGDocument();
     // const svgDocument = self.svgObject?.nativeElement;
     if(!svgDocument) {
-      console.error('SvgDocument not valid', svgDocument);
       if(retry < 3) {
         retry++;
         setTimeout(() => {
@@ -82,5 +83,61 @@ export class EditImagePage implements OnInit, AfterViewInit {
 
   selectColor(color: ColorDto) {
     this.currentColor = color;
+  }
+
+
+  onPrint(divName: string) {
+    const printContents = document.getElementById(divName)?.innerHTML;
+    console.log(printContents, divName);
+    if(printContents) {
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+    }
+  }
+
+  printPdf(){
+    const doc = new jsPDF()
+    const svgDocument = this.svgObject?.nativeElement.getSVGDocument();
+    const svg = svgDocument.getElementsByTagName('svg');
+
+    if(svg && svg[0]) {
+      doc
+          .svg(svg[0], {
+            x: 15,
+            y: 15,
+            width: 200,
+            height: 200
+          })
+          .then(() => {
+            // save the created pdf
+            doc.save(this.design?.name)
+          })
+    }
+
+
+
+  }
+
+  printInLineSvg(){
+    const doc = new jsPDF()
+
+    const element = document.getElementById('L1yer__1');
+    console.log(element);
+    if(element) {
+
+      doc
+          .svg(element, {
+            x: 15,
+            y: 15,
+            width: 100,
+            height: 100
+          })
+          .then(() => {
+            // save the created pdf
+            doc.save('myPDFSvg.pdf')
+          })
+    }
   }
 }
