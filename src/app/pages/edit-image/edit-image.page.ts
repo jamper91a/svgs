@@ -76,6 +76,7 @@ export class EditImagePage implements OnInit, AfterViewInit {
     svgDocument.addEventListener('click', function (e: any) {
       if(self.currentColor !== null) {
         const object = e.target;
+        console.log(e.target.id);
         object.setAttribute('style', 'fill:' + self.currentColor.hex);
       }
     });
@@ -85,17 +86,6 @@ export class EditImagePage implements OnInit, AfterViewInit {
     this.currentColor = color;
   }
 
-
-  onPrint(divName: string) {
-    const printContents = document.getElementById(divName)?.innerHTML;
-    console.log(printContents, divName);
-    if(printContents) {
-      const originalContents = document.body.innerHTML;
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-    }
-  }
 
   printPdf(){
     const doc = new jsPDF()
@@ -120,24 +110,4 @@ export class EditImagePage implements OnInit, AfterViewInit {
 
   }
 
-  printInLineSvg(){
-    const doc = new jsPDF()
-
-    const element = document.getElementById('L1yer__1');
-    console.log(element);
-    if(element) {
-
-      doc
-          .svg(element, {
-            x: 15,
-            y: 15,
-            width: 100,
-            height: 100
-          })
-          .then(() => {
-            // save the created pdf
-            doc.save('myPDFSvg.pdf')
-          })
-    }
-  }
 }
