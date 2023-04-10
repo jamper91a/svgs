@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>All designs</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,14 +15,8 @@
   </ion-header>
 
   <ion-list>
-<!--    <ion-item *ngFor="let design of designs; let index">-->
-<!--      <ion-avatar slot="start">-->
-<!--        <img [src]="design.url" alt="{{design.name}}" />-->
-<!--      </ion-avatar>-->
-<!--      <ion-label>{{ design.name }}</ion-label>-->
-<!--    </ion-item>-->
     <ion-card *ngFor="let design of designs; let index" (click)="goToEditImage(design.id)">
-      <img alt="{{design.name}}" [src]="design.url" />
+      <img alt="{{design.name}}" [src]="design.url"/>
       <ion-card-header>
         <ion-card-title>{{ design.name }}</ion-card-title>
         <ion-card-subtitle>A little description</ion-card-subtitle>
